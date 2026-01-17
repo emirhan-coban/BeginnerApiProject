@@ -32,7 +32,50 @@ namespace BeginnerApiProject.WebApi.Controllers
             _context.Contacts.Add(contact);
             _context.SaveChanges();
             return Ok(contact);
+        }
 
+        [HttpDelete]
+
+        public IActionResult DeleteContact(int id)
+        {
+            var contact = _context.Contacts.Find(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+            _context.Contacts.Remove(contact);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpGet("GetContact")]
+
+        public IActionResult GetContact(int id)
+        {
+            var contact = _context.Contacts.Find(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+            return Ok(contact);
+        }
+
+        [HttpPut]
+
+        public IActionResult UpdateContact(int id, UpdateContactDto updateContactDto)
+        {
+            var contact = _context.Contacts.Find(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+            contact.Email = updateContactDto.Email;
+            contact.Address = updateContactDto.Address;
+            contact.MapLocation = updateContactDto.MapLocation;
+            contact.OpenHours = updateContactDto.OpenHours;
+            contact.Phone = updateContactDto.Phone;
+            _context.SaveChanges();
+            return Ok(contact);
         }
     }
 }
